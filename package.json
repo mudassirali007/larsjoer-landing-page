@@ -1,0 +1,31 @@
+{
+  "name": "fiverr-canvas-landing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "live-server & postcss & npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "start": "live-server & postcss ./src/input.css -o ./dist/output.css --minify --watch",
+    "build": "npx tailwindcss -o ./dist/output.css --minify",
+    "lint": "eslint --fix src",
+    "format": "prettier --write src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.7"
+  },
+  "dependencies": {
+    "cssnano": "^5.1.15",
+    "eslint": "^8.34.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-tailwindcss": "^3.8.3",
+    "flowbite": "^1.6.3",
+    "live-server": "^1.2.2",
+    "prettier": "^2.8.4",
+    "prettier-plugin-tailwindcss": "^0.2.3"
+  }
+}
