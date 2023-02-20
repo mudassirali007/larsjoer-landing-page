@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var pointer = canvas.getPointer(o.e);
     var activeObj = canvas.getActiveObject();
 
-    (activeObj.stroke = "red"), (activeObj.strokeWidth = 5);
+    (activeObj.stroke = "#374151"), (activeObj.strokeWidth = 5);
     activeObj.fill = "transparent";
 
     if (origX > pointer.x) {
