@@ -10,19 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function init() {
     const img = new Image();
     img.onload = function () {
-      let { clientWidth, clientHeight } = document.querySelector("#canvasview");
-
-      clientWidth = window.innerWidth > 0 ? (window.innerWidth - (window.innerWidth / 3) ): screen.width;
-      clientHeight = window.innerHeight > 0 ? (window.innerHeight - (window.innerHeight / 2)) : screen.height;
-      width = this.width;
-      height = this.height;
-      let widthAspectRatio = clientWidth / width;
-      let heightAspectRatio = clientHeight / height;
-
-      let finalAspectRatio = Math.min(widthAspectRatio, heightAspectRatio);
-
-      width *= finalAspectRatio;
-      height *= finalAspectRatio;
+      const {width,height} = calculateSize(this)
       canvas.setWidth(width);
       canvas.setHeight(height);
       canvas.setBackgroundImage(this.src, canvas.renderAll.bind(canvas), {
@@ -115,12 +103,23 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
   function resizeCanvas() {
-    let { clientWidth, clientHeight } = document.querySelector("#canvasview");
+    const {width,height} = calculateSize(canvas.backgroundImage)
+    
+    canvas.setWidth(width);
+    canvas.setHeight(height);
+    canvas.backgroundImage.scaleX = canvas.width / canvas.backgroundImage.width;
+    canvas.backgroundImage.scaleY = canvas.height / canvas.backgroundImage.height;
+    canvas.renderAll();
+  }
+  function calculateSize({width,height}){
+    document.querySelector("#originalImage").style.display = ''
+    let { clientWidth, clientHeight } = document.querySelector("#originalImage");
+    document.querySelector("#originalImage").style.display = 'none'
 
-    clientWidth = window.innerWidth > 0 ? (window.innerWidth - (window.innerWidth / 3) ): screen.width;
-    clientHeight = window.innerHeight > 0 ? (window.innerHeight - (window.innerHeight / 2)) : screen.height;
-    width = canvas.backgroundImage.width;
-    height = canvas.backgroundImage.height;
+    // clientWidth = window.innerWidth > 0 ? (window.innerWidth - (window.innerWidth / 3) ): screen.width;
+    // clientHeight = window.innerHeight > 0 ? (window.innerHeight - (window.innerHeight / 2)) : screen.height;
+    // width = this.width;
+    // height = this.height;
     let widthAspectRatio = clientWidth / width;
     let heightAspectRatio = clientHeight / height;
 
@@ -128,11 +127,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     width *= finalAspectRatio;
     height *= finalAspectRatio;
-    canvas.setWidth(width);
-    canvas.setHeight(height);
-    canvas.backgroundImage.scaleX = canvas.width / canvas.backgroundImage.width;
-    canvas.backgroundImage.scaleY = canvas.height / canvas.backgroundImage.height;
-    canvas.renderAll();
+    return {
+      width,
+      height
+    }
   }
 
   init();
