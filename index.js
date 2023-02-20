@@ -12,9 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
     img.onload = function () {
       let { clientWidth, clientHeight } = document.querySelector("#canvasview");
 
-      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
-      var height = window.innerHeight > 0 ? window.innerHeight : screen.height;
-
+      clientWidth = window.innerWidth > 0 ? window.innerWidth - 400 : screen.width;
+      clientHeight = window.innerHeight > 0 ? window.innerHeight - 300 : screen.height;
+      width = this.width;
+      height = this.height;
       let widthAspectRatio = clientWidth / width;
       let heightAspectRatio = clientHeight / height;
 
