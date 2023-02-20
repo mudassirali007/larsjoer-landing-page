@@ -128,6 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     width *= finalAspectRatio;
     height *= finalAspectRatio;
+
     return {
       width,
       height
