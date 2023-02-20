@@ -114,6 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function calculateSize({width,height}){
     document.querySelector("#originalImage").style.display = ''
     let { clientWidth, clientHeight } = document.querySelector("#originalImage");
+    console.log(clientWidth, clientHeight)
     document.querySelector("#originalImage").style.display = 'none'
 
     // clientWidth = window.innerWidth > 0 ? (window.innerWidth - (window.innerWidth / 3) ): screen.width;
