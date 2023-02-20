@@ -35,85 +35,110 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     img.src = "./assets/images/placeholder.jpg";
   }
-
-  init();
-  canvas.on("mouse:down", function (o) {
-    onMouseDown(o);
-  });
-  canvas.on("mouse:move", function (o) {
-    onMouseMove(o);
-  });
-  canvas.on("mouse:up", function (o) {
-    onMouseUp(o);
-  });
-  canvas.on("object:moving", function (o) {
-    disable();
-  });
-
-  onMouseUp = function (o) {
-    disable();
-  };
-
-  onMouseMove = function (o) {
-    if (!isEnable() || !isDrawingMode) {
-      return;
-    }
-
-    var pointer = canvas.getPointer(o.e);
-    var activeObj = canvas.getActiveObject();
-
-    (activeObj.stroke = "#374151"), (activeObj.strokeWidth = 5);
-    activeObj.fill = "transparent";
-
-    if (origX > pointer.x) {
-      activeObj.set({ left: Math.abs(pointer.x) });
-    }
-    if (origY > pointer.y) {
-      activeObj.set({ top: Math.abs(pointer.y) });
-    }
-
-    activeObj.set({ width: Math.abs(origX - pointer.x) });
-    activeObj.set({ height: Math.abs(origY - pointer.y) });
-
-    activeObj.setCoords();
-    canvas.renderAll();
-  };
-
-  onMouseDown = function (o) {
-    if (!isDrawingMode) return;
-    enable();
-
-    var pointer = canvas.getPointer(o.e);
-    origX = pointer.x;
-    origY = pointer.y;
-
-    var rect = new fabric.Rect({
-      left: origX,
-      top: origY,
-      originX: "left",
-      originY: "top",
-      width: pointer.x - origX,
-      height: pointer.y - origY,
-      angle: 0,
-      transparentCorners: false,
-      hasBorders: false,
-      hasControls: false,
+  function initRectangle() {
+    canvas.on("mouse:down", function (o) {
+      onMouseDown(o);
+    });
+    canvas.on("mouse:move", function (o) {
+      onMouseMove(o);
+    });
+    canvas.on("mouse:up", function (o) {
+      onMouseUp(o);
+    });
+    canvas.on("object:moving", function (o) {
+      disable();
     });
 
-    canvas.add(rect).setActiveObject(rect);
-  };
+    onMouseUp = function (o) {
+      disable();
+    };
 
-  isEnable = function () {
-    return isDrawing;
-  };
+    onMouseMove = function (o) {
+      if (!isEnable() || !isDrawingMode) {
+        return;
+      }
 
-  enable = function () {
-    isDrawing = true;
-  };
+      var pointer = canvas.getPointer(o.e);
+      var activeObj = canvas.getActiveObject();
 
-  disable = function () {
-    isDrawing = false;
-  };
+      (activeObj.stroke = "#374151"), (activeObj.strokeWidth = 5);
+      activeObj.fill = "transparent";
+
+      if (origX > pointer.x) {
+        activeObj.set({ left: Math.abs(pointer.x) });
+      }
+      if (origY > pointer.y) {
+        activeObj.set({ top: Math.abs(pointer.y) });
+      }
+
+      activeObj.set({ width: Math.abs(origX - pointer.x) });
+      activeObj.set({ height: Math.abs(origY - pointer.y) });
+
+      activeObj.setCoords();
+      canvas.renderAll();
+    };
+
+    onMouseDown = function (o) {
+      if (!isDrawingMode) return;
+      enable();
+
+      var pointer = canvas.getPointer(o.e);
+      origX = pointer.x;
+      origY = pointer.y;
+
+      var rect = new fabric.Rect({
+        left: origX,
+        top: origY,
+        originX: "left",
+        originY: "top",
+        width: pointer.x - origX,
+        height: pointer.y - origY,
+        angle: 0,
+        transparentCorners: false,
+        hasBorders: false,
+        hasControls: false,
+      });
+
+      canvas.add(rect).setActiveObject(rect);
+    };
+
+    isEnable = function () {
+      return isDrawing;
+    };
+
+    enable = function () {
+      isDrawing = true;
+    };
+
+    disable = function () {
+      isDrawing = false;
+    };
+  }
+  function resizeCanvas() {
+    let { clientWidth, clientHeight } = document.querySelector("#canvasview");
+
+    clientWidth = window.innerWidth > 0 ? window.innerWidth - 400 : screen.width;
+    clientHeight = window.innerHeight > 0 ? window.innerHeight - 300 : screen.height;
+    width = canvas.backgroundImage.width;
+    height = canvas.backgroundImage.height;
+    let widthAspectRatio = clientWidth / width;
+    let heightAspectRatio = clientHeight / height;
+
+    let finalAspectRatio = Math.min(widthAspectRatio, heightAspectRatio);
+
+    width *= finalAspectRatio;
+    height *= finalAspectRatio;
+    canvas.setWidth(width);
+    canvas.setHeight(height);
+    canvas.backgroundImage.scaleX = canvas.width / canvas.backgroundImage.width;
+    canvas.backgroundImage.scaleY = canvas.height / canvas.backgroundImage.height;
+    canvas.renderAll();
+  }
+
+  init();
+  initRectangle();
+
+  window.addEventListener("resize", resizeCanvas, false);
   document.getElementById("rectangle").addEventListener("click", (el) => {
     isDrawingMode = isDrawingMode ? false : true;
 
