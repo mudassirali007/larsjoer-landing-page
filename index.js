@@ -112,12 +112,18 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas.renderAll();
   }
   function calculateSize({width,height}){
+    
     document.querySelector("#originalImage").style.display = ''
+    
+    document.querySelector("#canvasview").style.display = 'none'
+    resizeImage()
     let { clientWidth, clientHeight } = document.querySelector("#originalImage");
     console.log(clientWidth, clientHeight)
     document.querySelector("#originalImage").style.display = 'none'
-    clientWidth = clientWidth - (clientWidth/4)
-    clientHeight =  clientHeight - (clientHeight/2)
+    document.querySelector("#canvasview").style.display = ''
+
+    // clientWidth = clientWidth - (clientWidth/4)
+    // clientHeight =  clientHeight - (clientHeight/2)
     // clientWidth = window.innerWidth > 0 ? (window.innerWidth - (window.innerWidth / 3) ): screen.width;
     // clientHeight = window.innerHeight > 0 ? (window.innerHeight - (window.innerHeight / 2)) : screen.height;
     // width = this.width;
@@ -135,10 +141,20 @@ document.addEventListener("DOMContentLoaded", () => {
       height
     }
   }
+  function resizeImage(){
+    document.querySelector("#originalImage").style.maxHeight = '0px'
+    clientHeight = document.querySelector('#swapReset').clientHeight-document.querySelector('#swapBottom').clientHeight
+    clientHeight = clientHeight - (clientHeight/5)
+    document.querySelector("#originalImage").style.maxHeight = `${clientHeight}px`
+    console.log('Resize Image', clientHeight)
+
+  }
 
   init();
   initRectangle();
-
+  resizeImage()
+    
+    
   window.addEventListener("resize", resizeCanvas, false);
   document.getElementById("rectangle").addEventListener("click", (el) => {
     isDrawingMode = isDrawingMode ? false : true;
